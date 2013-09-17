@@ -20,6 +20,10 @@ describe Fdoc::SpecWatcher do
         def get(action, params)
           params
         end
+
+        def patch(action, params)
+          params
+        end
       end.new
       @klass.extend(Fdoc::SpecWatcher)
     end
@@ -36,6 +40,13 @@ describe Fdoc::SpecWatcher do
         args[2] == {'id' => 1}
       end
       @klass.get(:index, {:id => 1}.to_json)
+    end
+
+    it "should verify when verb is patch" do
+      Fdoc::Service.should_receive(:verify!).with do |*args|
+        args[2] == {'id' => 1}
+      end
+      @klass.patch(:index, {:id => 1}.to_json)
     end
   end
 
